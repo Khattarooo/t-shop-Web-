@@ -13,3 +13,20 @@ export interface PostProps {
   title: string;
   description: string;
 }
+
+export interface ProductCardProps {
+  id: string;
+  image: string;
+  Name: string;
+  price: number;
+  currency: string;
+  unit: string;
+  isAvailable: boolean;
+}
+export interface ModalProps {
+  closeModal: () => void;
+  convertedPrice: string;
+  image: string;
+  Name: string;
+  unit: string;
+}

@@ -9,8 +9,8 @@ const Auth = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false); // State to manage whether to show the registration form
-  const [submitting, setSubmitting] = useState(false); // State to manage whether the form is being submitted
+  const [isRegistering, setIsRegistering] = useState(false); 
+  const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Auth = () => {
       setError("An unexpected error occurred");
     } finally {
       setLoading(false);
-      setSubmitting(false); // Reset submitting state after form submission is completed
+      setSubmitting(false);
     }
   };
 
@@ -72,7 +72,7 @@ const Auth = () => {
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
-    setError(""); // Clear any existing error message
+    setError("");
   };
 
   return (

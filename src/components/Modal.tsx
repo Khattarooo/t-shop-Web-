@@ -1,13 +1,6 @@
 import React from "react";
 import Image from "next/image";
-
-interface ModalProps {
-  closeModal: () => void;
-  convertedPrice: string;
-  image: string;
-  Name: string;
-  unit: string;
-}
+import { ModalProps } from "@/utils/types";
 
 const Modal: React.FC<ModalProps> = ({
   closeModal,

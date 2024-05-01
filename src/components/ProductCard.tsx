@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
 import Image from "next/image";
-
-interface ProductCardProps {
-  id: string;
-  image: string;
-  Name: string;
-  price: number;
-  currency: string;
-  unit: string;
-  isAvailable: boolean;
-}
+import { ProductCardProps } from "@/utils/types";
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  id,
   image,
   Name,
   price,
