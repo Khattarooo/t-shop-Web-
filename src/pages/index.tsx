@@ -1,7 +1,7 @@
 import Navigation from "../components/Navigation";
 
-const HomePage = () => {
+const MainPage = () => {
   return <Navigation />;
 };
 
-export default HomePage;
+export default MainPage;

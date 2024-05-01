@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAccessToken, setRefreshToken } from "@/Redux/slices/authSlice";
+import Image from "next/image";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,13 @@ const Auth = () => {
   const [submitting, setSubmitting] = useState(false); // State to manage whether the form is being submitted
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (isRegistering) {
+      document.title = "SignUp - T-Shop";
+    } else {
+      document.title = "Login - T-Shop";
+    }
+  }, [isRegistering]);
   const handleAuth = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (isRegistering && password !== confirmPassword) {
@@ -68,12 +76,20 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-[url('/w2.png')] bg-cover bg-center">
+    <div className="flex justify-center items-center h-screen bg-[url('/w2.png')] min-w-[250px] bg-cover bg-center">
       <form
         onSubmit={handleAuth}
         style={{ backgroundColor: "#72d87a" }}
-        className="p-8 rounded-lg shadow-lg max-w-sm w-full mx-auto"
+        className="p-8 rounded-3xl shadow-xl max-w-sm w-full  mx-auto"
       >
+        <Image
+          src="/logo.svg"
+          alt="Logo"
+          width={70}
+          height={70}
+          className="mx-auto mb-4"
+          style={{ maxWidth: "150px" }}
+        />
         <div className="mb-2">
           <label htmlFor="email" className="block text-black">
             Email
@@ -125,20 +141,19 @@ const Auth = () => {
             !password ||
             (isRegistering && !confirmPassword) ||
             loading ||
-            submitting // Disable the button when submitting
+            submitting
           }
           className={`mt-4 w-full bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline ${
             loading && "opacity-50 cursor-not-allowed"
           }`}
         >
           {submitting ? "Submitting..." : isRegistering ? "Register" : "Log in"}{" "}
-          {/* Change button text based on submitting state */}
         </button>
         <div className="text-center mt-4">
           <button
             type="button"
             onClick={toggleForm}
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 focus:outline-none"
+            className="inline-block align-baseline font-bold text-sm text-white hover:text-green-700 focus:outline-none"
           >
             {isRegistering
               ? "Already have an account? Log in"
