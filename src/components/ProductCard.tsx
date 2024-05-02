@@ -57,7 +57,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </button>
           </>
         ) : (
-          <p className={" text-red-600 text-2xl text-center"}>Out Of Stock</p>
+          <>
+            <p></p>
+            <p className={" text-red-600 text-2xl text-center"}>Out Of Stock</p>
+          </>
         )}
       </div>
       {modalVisible && (

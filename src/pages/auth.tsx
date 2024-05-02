@@ -9,7 +9,7 @@ const Auth = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false); 
+  const [isRegistering, setIsRegistering] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
 
@@ -41,6 +41,7 @@ const Auth = () => {
           body: JSON.stringify({
             email,
             password,
+            token_expires_in: "0.3m",
           }),
         }
       );
@@ -51,6 +52,7 @@ const Auth = () => {
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Authentication failed");
+        console.log(errorData.message); //toast
       }
     } catch (err) {
       console.error("Error authenticating:", err);
@@ -87,6 +89,7 @@ const Auth = () => {
           alt="Logo"
           width={70}
           height={70}
+          priority
           className="mx-auto mb-4"
           style={{ maxWidth: "150px" }}
         />

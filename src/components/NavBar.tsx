@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="top-0 left-0 mt-4 fixed right-0 bg-gradient-to-r from-green-600 to-lime-600 text-white py-2 px-4 flex items-center justify-between z-50 mx-6 rounded-xl shadow-lg shadow-gray-400">
+    <nav className="top-0 left-0 mt-4 fixed right-0 bg-gradient-to-r from-green-600 to-lime-600 text-white py-2 px-4 flex items-center justify-between  mx-6 rounded-xl shadow-lg shadow-gray-400">
       <div
         className="font-semibold cursor-pointer text-sm sm:text-xl md:text-2xl lg:text-3xl  hover:text-lime-300 "
         onClick={handleHomeClick}
