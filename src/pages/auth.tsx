@@ -28,7 +28,7 @@ const Auth = () => {
     }
 
     try {
-      setSubmitting(true); // Set submitting state to true when form is being submitted
+      setSubmitting(true);
       setLoading(true);
       const endpoint = isRegistering ? "/signup" : "/login";
       const response = await fetch(
@@ -52,7 +52,7 @@ const Auth = () => {
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Authentication failed");
-        console.log(errorData.message); //toast
+        console.log(errorData.message);
       }
     } catch (err) {
       console.error("Error authenticating:", err);
@@ -74,6 +74,9 @@ const Auth = () => {
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
     setError("");
   };
 
@@ -87,8 +90,8 @@ const Auth = () => {
         <Image
           src="/logo.svg"
           alt="Logo"
-          width={70}
-          height={70}
+          width={150}
+          height={150}
           priority
           className="mx-auto mb-4"
           style={{ maxWidth: "150px" }}

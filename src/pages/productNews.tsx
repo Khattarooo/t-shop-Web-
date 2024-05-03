@@ -9,6 +9,8 @@ import {
   resetAuthState,
 } from "../Redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import logo from "../../public/logo.svg";
+import Image from "next/image";
 
 interface Post {
   _id: string;
@@ -23,7 +25,8 @@ const ProductNews: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [refreshedOnce, setRefreshedOnce] = useState<boolean>(false); // New state to track if refresh token is used once
+  const [refreshedOnce, setRefreshedOnce] = useState<boolean>(false);
+  const [showFooter, setShowFooter] = useState<boolean>(false);
 
   const accessToken: string | null = useSelector(selectAccessToken);
   const refreshToken: string | null = useSelector(selectRefreshToken);
@@ -34,10 +37,38 @@ const ProductNews: React.FC = () => {
     document.title = "News - T-Shop";
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const windowTop = window.scrollY;
+
+      if (windowTop === 0 && hasNextPage && !loading) {
+        handleRefresh();
+      } else {
+        const docHeight = document.documentElement.scrollHeight;
+        const windowBottom = windowHeight + window.scrollY;
+
+        if (windowBottom >= docHeight && hasNextPage && !loading) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [loading, hasNextPage]);
+
   const fetchPosts = async () => {
     try {
-      if (!accessToken || (refreshedOnce && !refreshing)) {
-        console.log("session 1");
+      console.log("Fetching posts...");
+      console.log("AccessToken:", accessToken);
+      console.log("RefreshedOnce:", refreshedOnce);
+      console.log("Refreshing:", refreshing);
+
+      if (!accessToken) {
+        console.log("Session 1 - No access token");
         dispatch(resetAuthState());
         navigate("/");
         return;
@@ -51,18 +82,27 @@ const ProductNews: React.FC = () => {
           },
         }
       );
+
       if (!response.ok) {
-        if (response.status === 403 && !refreshedOnce) {
+        console.error("Error fetching posts:", response.status);
+        if (response.status === 403 && refreshedOnce) {
+          console.log("Session 1 - New access token has expired");
+          dispatch(resetAuthState());
+          navigate("/");
+        } else if (response.status === 403 && !refreshedOnce) {
+          console.log("Refreshing access token...");
           await refreshAccessToken();
           setRefreshedOnce(true);
         }
-        throw new Error("Failed to fetch posts");
+        return;
       }
+
       const { pagination, results } = await response.json();
       setPosts((prevPosts) =>
         page === 1 ? results : [...prevPosts, ...results]
       );
       setHasNextPage(pagination.hasNextPage);
+      setShowFooter(!pagination.hasNextPage);
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -73,6 +113,8 @@ const ProductNews: React.FC = () => {
 
   const refreshAccessToken = async () => {
     try {
+      console.log("Refreshing access token...");
+
       const response = await fetch(
         "https://backend-practice.euriskomobility.me/refresh-token",
         {
@@ -86,17 +128,18 @@ const ProductNews: React.FC = () => {
           }),
         }
       );
+
       if (!response.ok) {
         throw new Error("Failed to refresh access token");
       }
+
       const { accessToken: newAccessToken } = await response.json();
       console.log("Previous Access Token:", accessToken);
       console.log("New Access Token:", newAccessToken);
       dispatch(setAccessToken(newAccessToken));
       setRefreshedOnce(true);
     } catch (error) {
-      console.error("Error refreshing access token:", error);
-      dispatch(resetAuthState());
+      console.log("Error refreshing access token:", error);
     }
   };
 
@@ -106,55 +149,38 @@ const ProductNews: React.FC = () => {
     }
   }, [accessToken, page, hasNextPage, refreshing]);
 
-  const handleNextPage = () => {
-    if (hasNextPage && !loading) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
-
   const handleRefresh = () => {
     setRefreshing(true);
     setPage(1);
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <NavBar />
-      <div className="flex flex-col bg-white p-5 min-w-[400px]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
-          {loading ? (
+      {loading ? (
+        <div className="flex items-center justify-center min-h-screen bg-cover bg-fixed bg-center bg-[url('/w1.jpg')]">
+          <div className="p-8 bg-white rounded-lg shadow-lg flex flex-col items-center">
+            <Image src="/logo.svg" alt="Logo" width={120} height={120} />
             <p>Loading...</p>
-          ) : (
-            <>
-              {posts.map((post) => (
-                <PostCard
-                  key={post._id}
-                  image_url={post.image_url}
-                  title={post.title}
-                  description={post.description}
-                />
-              ))}
-              {!loading && !hasNextPage && <p>No more posts to load.</p>}
-            </>
-          )}
+          </div>
         </div>
-        <div className="flex justify-between mt-4">
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing || loading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Refresh
-          </button>
-          <button
-            onClick={handleNextPage}
-            disabled={!hasNextPage || loading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Load More
-          </button>
+      ) : (
+        <div className="flex-grow p-5 pt-24 bg-cover bg-fixed bg-center bg-[url('/w1.jpg')] min-w-[400px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+            {posts.map((post) => (
+              <PostCard
+                key={post._id}
+                image_url={post.image_url}
+                title={post.title}
+                description={post.description}
+              />
+            ))}
+            {showFooter && (
+              <PostCard image_url={"/logo.svg"} title="No More Posts To Load" />
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

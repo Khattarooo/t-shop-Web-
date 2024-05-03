@@ -8,12 +8,10 @@ function MainNavigation() {
   return (
     <Router>
       <Navbar />
-      <div style={{ paddingTop: "60px" }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/productNews" element={<ProductsNews />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/productNews" element={<ProductsNews />} />
+      </Routes>
     </Router>
   );
 }

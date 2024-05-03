@@ -8,7 +8,9 @@ const Home: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [hasMoreProducts, setHasMoreProducts] = useState<boolean>(true);
   const limitPerPage: number = 6;
-
+  useEffect(() => {
+    document.title = "T-Shop";
+  }, []);
   const fetchProducts = useCallback(async () => {
     try {
       const response = await fetch(

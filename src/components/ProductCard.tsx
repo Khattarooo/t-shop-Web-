@@ -41,13 +41,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
           className="w-56 h-72 object-contain rounded"
           width={500}
           height={500}
+          priority
         />
       </div>
       <div className="mt-2 flex justify-between items-center">
         {isAvailable ? (
           <>
             <p className="text-lg font-semibold">
-              {price} {currency}/{unit}
+              {price} {currency} {unit}
             </p>
             <button
               onClick={toggleModal}
