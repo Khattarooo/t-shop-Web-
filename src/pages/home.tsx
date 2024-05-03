@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/NavBar";
 import ProductCard from "../components/ProductCard";
-import { ProductProps } from "@/utils/types";
+import { ProductCardProps } from "@/utils/types";
 
 const Home: React.FC = () => {
-  const [products, setProducts] = useState<ProductProps[]>([]);
+  const [products, setProducts] = useState<ProductCardProps[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMoreProducts, setHasMoreProducts] = useState<boolean>(true);
   const limitPerPage: number = 6;
@@ -16,7 +16,7 @@ const Home: React.FC = () => {
       const response = await fetch(
         `https://6628b3a154afcabd07369c31.mockapi.io/Product?page=${page}&limit=${limitPerPage}`
       );
-      const data: ProductProps[] = await response.json();
+      const data: ProductCardProps[] = await response.json();
       if (data.length === 0) {
         setHasMoreProducts(false);
       }

@@ -9,15 +9,8 @@ import {
   resetAuthState,
 } from "../Redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import logo from "../../public/logo.svg";
 import Image from "next/image";
-
-interface Post {
-  _id: string;
-  image_url?: string;
-  title: string;
-  description: string;
-}
+import { Post } from "@/utils/types";
 
 const ProductNews: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);

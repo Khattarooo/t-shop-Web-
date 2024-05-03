@@ -1,11 +1,6 @@
+import { PostCardProps } from "@/utils/types";
 import Image from "next/image";
 import React from "react";
-
-interface PostCardProps {
-  image_url?: string;
-  title?: string;
-  description?: string;
-}
 
 const PostCard: React.FC<PostCardProps> = ({
   image_url,

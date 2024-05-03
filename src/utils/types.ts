@@ -1,12 +1,3 @@
-export interface ProductProps {
-  id: string;
-  Name: string;
-  isAvailable: boolean;
-  image: string;
-  price: number;
-  currency: string;
-  unit: string;
-}
 export interface PostProps {
   _id?: string;
   image_url?: string | null;
@@ -29,4 +20,22 @@ export interface ModalProps {
   image: string;
   Name: string;
   unit: string;
+}
+export interface PostCardProps {
+  image_url?: string;
+  title?: string;
+  description?: string;
+}
+
+export interface Post {
+  _id: string;
+  image_url?: string;
+  title: string;
+  description: string;
+}
+
+export interface AuthState {
+  accessToken: string;
+  refreshToken: string;
+  isAuthenticated: boolean;
 }
