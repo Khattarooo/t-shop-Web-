@@ -37,7 +37,7 @@ const ProductNews: React.FC = () => {
         },
         body: JSON.stringify({
           refreshToken,
-          token_expires_in: "0.2m",
+          token_expires_in: "0.5m",
         }),
       });
       const newAccessToken = await response.json();

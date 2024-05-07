@@ -40,7 +40,7 @@ const Auth = () => {
         body: JSON.stringify({
           email,
           password,
-          token_expires_in: "0.3m",
+          token_expires_in: "0.5m",
         }),
       });
 

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { resetAuthState } from "@/Redux/slices/authSlice";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Navbar = () => {
   };
   const handleLogout = () => {
     dispatch(resetAuthState());
+    toast.success("Logout Successful");
     navigate("/");
   };
 
