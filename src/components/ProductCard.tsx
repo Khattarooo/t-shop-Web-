@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {isAvailable ? (
           <>
             <p className="text-lg font-semibold">
-              {price} {currency} {unit}
+              {price} {currency} per {unit}
             </p>
             <button
               onClick={toggleModal}

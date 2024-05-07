@@ -1,10 +1,3 @@
-export interface PostProps {
-  _id?: string;
-  image_url?: string | null;
-  title: string;
-  description: string;
-}
-
 export interface ProductCardProps {
   id: string;
   image: string;
@@ -24,14 +17,14 @@ export interface ModalProps {
 export interface PostCardProps {
   image_url?: string;
   title?: string;
-  description?: string;
+  keywords?: string;
 }
 
 export interface Post {
+  keywords?: string;
   _id: string;
   image_url?: string;
   title: string;
-  description: string;
 }
 
 export interface AuthState {

@@ -2,19 +2,22 @@ import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/NavBar";
 import ProductCard from "../components/ProductCard";
 import { ProductCardProps } from "@/utils/types";
+import { MockApi } from "@/utils/api";
 
 const Home: React.FC = () => {
   const [products, setProducts] = useState<ProductCardProps[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMoreProducts, setHasMoreProducts] = useState<boolean>(true);
   const limitPerPage: number = 6;
+  
   useEffect(() => {
     document.title = "T-Shop";
   }, []);
+
   const fetchProducts = useCallback(async () => {
     try {
       const response = await fetch(
-        `https://6628b3a154afcabd07369c31.mockapi.io/Product?page=${page}&limit=${limitPerPage}`
+        `${MockApi}?page=${page}&limit=${limitPerPage}`
       );
       const data: ProductCardProps[] = await response.json();
       if (data.length === 0) {
@@ -36,6 +39,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      document.title = "T-Shop";
       const windowHeight =
         "innerHeight" in window
           ? window.innerHeight
@@ -65,7 +69,7 @@ const Home: React.FC = () => {
     <div>
       <Navbar />
       <div
-        className="flex flex-col h-full bg-white p-5 min-w-[400px]"
+        className="flex flex-col h-full bg-white p-5 min-w-[400px] pt-20"
         style={{ paddingBottom: "30px" }}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
